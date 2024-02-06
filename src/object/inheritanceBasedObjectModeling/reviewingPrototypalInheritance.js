@@ -9,7 +9,7 @@
  * */
 
 const proto = {
-  sender: "luis@tjoj.com",
+  sender: 'luis@tjoj.com',
 }
 
 /**
@@ -19,11 +19,11 @@ const proto = {
  * the Object.setPrototypeOf(child, proto) API.
  * */
 const child = Object.create(proto)
-console.log("child object ", child) //  {}
+console.log('child object ', child) //  {}
 
-child.recipient = "luke@tjoj.com"
+child.recipient = 'luke@tjoj.com'
 console.log(child.recipient) // 'luke@tjoj.com'
-console.log("child object ", child) //   { recipient: 'luke@tjoj.com' }
+console.log('child object ', child) //   { recipient: 'luke@tjoj.com' }
 
 // sending exist in the prototype
 console.log(child.sender) // 'luis@tjoj.com
@@ -42,8 +42,8 @@ console.log(child.sender) // 'luis@tjoj.com
  * some abstract blueprint
  * */
 const transaction = {
-  sender: "luis@tjoj.com",
-  recipient: "luke@tjoj.com",
+  sender: 'luis@tjoj.com',
+  recipient: 'luke@tjoj.com',
 }
 
 /**
@@ -61,14 +61,14 @@ moneyTransaction.addFunds = function addFunds(funds = 0) {
 }
 
 moneyTransaction.addFunds(10.0)
-console.log("moneyTransaction ", moneyTransaction.funds) // 10.0
+console.log('moneyTransaction ', moneyTransaction.funds) // 10.0
 
 /**
  * Checks whether the prototype link has been established
  * */
 console.log(
-  "getPrototypeOf moneyTransaction ",
-  Object.getPrototypeOf(moneyTransaction)
+  'getPrototypeOf moneyTransaction ',
+  Object.getPrototypeOf(moneyTransaction),
 )
 // { sender: 'luis@tjoj.com', recipient: 'luke@tjoj.com' }
 
@@ -94,7 +94,7 @@ const moneyTransactionS = Object.create(transaction, {
     configurable: false,
   },
 })
-console.log("funds ", moneyTransactionS.funds)
+console.log('funds ', moneyTransactionS.funds)
 
 for (const moneyTransactionSKey in moneyTransactionS) {
   console.log(moneyTransactionSKey) // funds, sender, recipient
@@ -181,23 +181,23 @@ for (const moneyTransactionSKey in moneyTransactionS) {
 * You can also call the Object#isPrototypeOf method directly on the object.
 * */
 console.log(
-  "transaction is isPrototypeOf moneyTransaction ",
-  transaction.isPrototypeOf(moneyTransaction)
+  'transaction is isPrototypeOf moneyTransaction ',
+  transaction.isPrototypeOf(moneyTransaction),
 )
 
-console.log("Object.getPrototypeOf ", Object.getPrototypeOf(moneyTransaction))
+console.log('Object.getPrototypeOf ', Object.getPrototypeOf(moneyTransaction))
 //  { sender: 'luis@tjoj.com', recipient: 'luke@tjoj.com' }
 
 const obj = {}
-const parent = { foo: "bar" }
+const parent = { foo: 'bar' }
 
 console.log(obj.foo)
 // Expected output: undefined
 
 Object.setPrototypeOf(obj, parent)
 
-console.log("Object.getPrototypeOf ", Object.getPrototypeOf(obj)) //  { foo: 'bar' }
-console.log("Object.getPrototypeOf ", Object.getPrototypeOf(parent))
+console.log('Object.getPrototypeOf ', Object.getPrototypeOf(obj)) //  { foo: 'bar' }
+console.log('Object.getPrototypeOf ', Object.getPrototypeOf(parent))
 //   [Object: null prototype] {}
 
 // ------------------------------------------------------------------------
@@ -235,18 +235,18 @@ console.log("Object.getPrototypeOf ", Object.getPrototypeOf(parent))
  *  */
 
 const transaction2 = {
-  sender: "luis@tjoj.com",
-  recipient: "luke@tjoj.com",
+  sender: 'luis@tjoj.com',
+  recipient: 'luke@tjoj.com',
 }
 
 const hashTransaction = Object.create(transaction2)
 console.log(
-  "hashTransaction with Object.create sender ",
-  hashTransaction.sender
+  'hashTransaction with Object.create sender ',
+  hashTransaction.sender,
 )
 
 hashTransaction.calculateHash = function calculateHash() {
-  const data = [this.sender, this.recipient].join("")
+  const data = [this.sender, this.recipient].join('')
   let hash = 0,
     i = 0
   while (i < data.length) {
@@ -264,8 +264,8 @@ hashTransaction.calculateHash() // 237572532174000400
  * */
 const moneyTransaction2 = Object.setPrototypeOf({}, hashTransaction)
 console.log(
-  "moneyTransaction2 setPrototypeOf sender ",
-  moneyTransaction2.sender
+  'moneyTransaction2 setPrototypeOf sender ',
+  moneyTransaction2.sender,
 )
 moneyTransaction2.funds = 0.0
 moneyTransaction2.addFunds = function addFunds(funds = 0) {
@@ -274,24 +274,24 @@ moneyTransaction2.addFunds = function addFunds(funds = 0) {
 
 moneyTransaction2.addFunds(10)
 moneyTransaction2.calculateHash() // 237572532174000400
-console.log("moneyTransaction.funds ", moneyTransaction.funds) //10
-console.log("moneyTransaction.sender ", moneyTransaction.sender) //'luis@tjoj.com'
-console.log("moneyTransaction.recipient ", moneyTransaction.recipient) // 'luke@tjoj.com'
+console.log('moneyTransaction.funds ', moneyTransaction.funds) //10
+console.log('moneyTransaction.sender ', moneyTransaction.sender) //'luis@tjoj.com'
+console.log('moneyTransaction.recipient ', moneyTransaction.recipient) // 'luke@tjoj.com'
 
 console.log(
-  "hashTransaction getPrototypeOf ",
-  Object.getPrototypeOf(hashTransaction)
+  'hashTransaction getPrototypeOf ',
+  Object.getPrototypeOf(hashTransaction),
 )
 //  { sender: 'luis@tjoj.com', recipient: 'luke@tjoj.com' }
 
 console.log(
-  "moneyTransaction2 getPrototypeOf ",
-  Object.getPrototypeOf(moneyTransaction2)
+  'moneyTransaction2 getPrototypeOf ',
+  Object.getPrototypeOf(moneyTransaction2),
 )
 // { calculateHash: [Function: calculateHash] }
 
 const moneyTransaction = () => {
-  console.log("is it is running")
+  console.log('is it is running')
 }
 
 // please visit caniusevia to download the latest VIA software to remap the keys. If the VIA software cannot recogonize your keboard please reach out to our support to the get instruction VIA onlu work when the keyboard is connected by wire to the computer.

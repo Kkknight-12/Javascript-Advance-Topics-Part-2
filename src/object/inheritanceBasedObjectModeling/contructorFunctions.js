@@ -29,8 +29,8 @@
  * */
 
 function Transaction(sender, recipient) {
-  this.sender = sender;
-  this.recipient = recipient;
+  this.sender = sender
+  this.recipient = recipient
 }
 
 function HashTransaction(sender, recipient) {
@@ -39,29 +39,29 @@ function HashTransaction(sender, recipient) {
    * Detects whether the instantiation of the child object omits the new
    * keyword and fixes the call.  */
   if (!new.target) {
-    return new HashTransaction(sender, recipient);
+    return new HashTransaction(sender, recipient)
   }
 
   /*
    * Calls the parent’s constructor to initialize any parent member
    * properties into this object’s context
    * */
-  Transaction.call(this, sender, recipient);
+  Transaction.call(this, sender, recipient)
 
   this.calculateHash = function calculateHash() {
-    const data = [this.sender, this.recipient].join("");
+    const data = [this.sender, this.recipient].join('')
     let hash = 0,
-      i = 0;
+      i = 0
     while (i < data.length) {
-      hash = ((hash << 5) - hash + data.charCodeAt(i++)) << 0;
+      hash = ((hash << 5) - hash + data.charCodeAt(i++)) << 0
     }
-    return hash ** 2;
-  };
+    return hash ** 2
+  }
 }
 
-const tx = new HashTransaction("luis@tjoj.com", "luke@tjoj.com");
-console.log(tx.calculateHash()); // 237572532174000400
-console.log(tx.sender); // 'luis@tjoj.com'
+const tx = new HashTransaction('luis@tjoj.com', 'luke@tjoj.com')
+console.log(tx.calculateHash()) // 237572532174000400
+console.log(tx.sender) // 'luis@tjoj.com'
 
 /*
  * By using functions, you can easily instantiate as many HashTransaction
@@ -75,9 +75,9 @@ console.log(tx.sender); // 'luis@tjoj.com'
  * instance of HashTransaction. In other words, if you create two instances,
  * you’ll see two copies of the same method:
  *  */
-const tx1 = new HashTransaction("luis@tjoj.com", "luke@tjoj.com");
-const tx2 = new HashTransaction("luis@tjoj.com", "luke@tjoj.com");
-console.log(tx1.calculateHash === tx2.calculateHash); // false
+const tx1 = new HashTransaction('luis@tjoj.com', 'luke@tjoj.com')
+const tx2 = new HashTransaction('luis@tjoj.com', 'luke@tjoj.com')
+console.log(tx1.calculateHash === tx2.calculateHash) // false
 
 // ------------------------------------------------------------------------
 /*
@@ -103,12 +103,12 @@ console.log(tx1.calculateHash === tx2.calculateHash); // false
 
 HashTransaction.prototype.calculateHash2 = function calculateHash() {
   // ...
-};
+}
 
 /*
  * With this slight twist, these two properties refer to the same memory
  * location: */
-console.log("prototype ", tx1.calculateHash2 === tx2.calculateHash2); // true
+console.log('prototype ', tx1.calculateHash2 === tx2.calculateHash2) // true
 
 /*
  * The same applies to any methods added to Transaction.prototype. Suppose
@@ -116,13 +116,13 @@ console.log("prototype ", tx1.calculateHash2 === tx2.calculateHash2); // true
  * objects to share:
  * */
 Transaction.prototype.displayTransaction = function displayTransaction() {
-  return `Transaction from ${this.sender} to ${this.recipient}`;
-};
+  return `Transaction from ${this.sender} to ${this.recipient}`
+}
 
 console.log(
-  "Transaction.prototype isPrototypeOf tx ",
-  Transaction.prototype.isPrototypeOf(tx)
-); // false")
+  'Transaction.prototype isPrototypeOf tx ',
+  Transaction.prototype.isPrototypeOf(tx),
+) // false")
 
 // ------------------------------------------------------------------------
 
@@ -132,18 +132,18 @@ console.log(
  * */
 
 function TransactionC(sender, recipient) {
-  this.sender = sender;
-  this.recipient = recipient;
+  this.sender = sender
+  this.recipient = recipient
 }
 TransactionC.prototype.displayTransaction = function () {
-  return `Transaction from ${this.sender} to ${this.recipient}`;
-};
+  return `Transaction from ${this.sender} to ${this.recipient}`
+}
 
 function HashTransactionC(sender, recipient) {
   if (!new.target) {
-    return new HashTransactionC(sender, recipient);
+    return new HashTransactionC(sender, recipient)
   }
-  TransactionC.call(this, sender, recipient);
+  TransactionC.call(this, sender, recipient)
 }
 
 // HashTransactionC.prototype.calculateHashC = function () {
@@ -163,33 +163,33 @@ function HashTransactionC(sender, recipient) {
  * Links prototypes for the lookup mechanism to work in case you need to
  * resolve properties from Transaction.prototype
  * */
-HashTransactionC.prototype = Object.create(TransactionC.prototype);
+HashTransactionC.prototype = Object.create(TransactionC.prototype)
 
 /*
  * Fixes or sets the constructor value.
  * Without this line, tx would be a Transaction object or constructed from
  * Transaction.
  * */
-HashTransactionC.prototype.constructor = HashTransactionC;
+HashTransactionC.prototype.constructor = HashTransactionC
 
 HashTransactionC.prototype.calculateHashC = function () {
-  const data = [this.sender, this.recipient].join("");
+  const data = [this.sender, this.recipient].join('')
   let hash = 0,
-    i = 0;
+    i = 0
   while (i < data.length) {
-    hash = ((hash << 5) - hash + data.charCodeAt(i++)) << 0;
+    hash = ((hash << 5) - hash + data.charCodeAt(i++)) << 0
   }
-  return hash ** 2;
-};
+  return hash ** 2
+}
 
-const txC = new HashTransactionC("luis@tjoj.com", "luke@tjoj.com");
-const tx2C = new HashTransactionC("luis@tjoj.com", "luke@tjoj.com");
+const txC = new HashTransactionC('luis@tjoj.com', 'luke@tjoj.com')
+const tx2C = new HashTransactionC('luis@tjoj.com', 'luke@tjoj.com')
 
-console.dir("txC ", txC);
+console.dir('txC ', txC)
 
 // console.log(TransactionC.prototype.isPrototypeOf(txC)); // true
 // console.log("txC ", txC);
-console.log("txC.calculateHashC ", txC.displayTransaction());
+console.log('txC.calculateHashC ', txC.displayTransaction())
 // console.log(txC.displayTransaction === tx2C.displayTransaction); // true
 
 // console.log("tx; ", txC);
