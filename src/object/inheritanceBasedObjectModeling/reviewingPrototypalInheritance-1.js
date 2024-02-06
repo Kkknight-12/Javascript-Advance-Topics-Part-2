@@ -1,15 +1,20 @@
 /**
- * first API we’ll look at to establish what looks like a parent-to-child
- * relationship is
+ * The Object.create(proto [,propertiesObject]) API in JavaScript is used to
+ * create a new object, using the first argument as the prototype of the new
+ * object. The optional second argument is an object defining additional
+ * properties to be added to the new object.
  *
- * Object.create( proto [,propertiesObject] )
+ * The proto argument is the object which should be the prototype of the
+ * newly-created object.
  *
- * API creates a new object linked to a prototype and optionally
- * accompanied by a collection of new property definitions.
+ * The propertiesObject is an optional parameter. If provided, it should be
+ * an object where each key corresponds to a property to be added to the new
+ * object, and the corresponding value is an object that describes that
+ * property.
  * */
 
 const proto = {
-  sender: 'luis@tjoj.com',
+  sender: 'sender@gmail.com',
 }
 
 /**
@@ -21,13 +26,14 @@ const proto = {
 const child = Object.create(proto)
 console.log('child object ', child) //  {}
 
-child.recipient = 'luke@tjoj.com'
-console.log(child.recipient) // 'luke@tjoj.com'
-console.log('child object ', child) //   { recipient: 'luke@tjoj.com' }
+child.recipient = 'recipient@gmail.com'
+console.log('recipient ', child.recipient) //  recipient@gmail.com
+console.log('child object ', child) //   { recipient: 'recipient@gmail.com' }
 
 // sending exist in the prototype
-console.log(child.sender) // 'luis@tjoj.com
+console.log('sender ', child.sender) //  sender@gmail.com
 
+console.log('-----------------------------------')
 // ------------------------------------------------------------------------
 
 /**
@@ -42,8 +48,8 @@ console.log(child.sender) // 'luis@tjoj.com
  * some abstract blueprint
  * */
 const transaction = {
-  sender: 'luis@tjoj.com',
-  recipient: 'luke@tjoj.com',
+  sender: 'sender@gg.com',
+  recipient: 'recipient@gg.com',
 }
 
 /**
@@ -66,20 +72,23 @@ console.log('moneyTransaction ', moneyTransaction.funds) // 10.0
 /**
  * Checks whether the prototype link has been established
  * */
+// Object.getPrototypeOf returns the prototype of the specified object.
 console.log(
   'getPrototypeOf moneyTransaction ',
   Object.getPrototypeOf(moneyTransaction),
 )
-// { sender: 'luis@tjoj.com', recipient: 'luke@tjoj.com' }
+//  { sender: 'sender@gg.com', recipient: 'recipient@gg.com' }
 
+// Verifies that the prototype link has been established
 console.log(Object.getPrototypeOf(moneyTransaction) === transaction) // true
 
 /**
  * Verifies that inherited properties are accessible from the child object
  * */
-console.log(moneyTransaction.sender) // 'luis@tjoj.com'
+console.log(moneyTransaction.sender) // sender@gg.com
 console.log(moneyTransaction.funds) // 10
 
+console.log('-----------------------------------')
 // ------------------------------------------------------------------------
 
 /**
@@ -100,24 +109,24 @@ for (const moneyTransactionSKey in moneyTransactionS) {
   console.log(moneyTransactionSKey) // funds, sender, recipient
 }
 /*
-* This second argument gives us fine control over how this newly created
-* object’s properties behave:
-*
-* Enumerable—Controls whether the property can be enumerated or viewed (as
-* when you pass the object to **console.log**, enumerating the keys with
-*  **Object.keys** ), or whether it’s seen byObject.assign (a topic that we’ll
-*  circle
-*  back to in chapter 3).
-*
-* Configurable—Controls whether you’re allowed to **delete** an object’s
-* property with the delete keyword or whether you can reconfigure the
-* field’s property descriptor.
-*
-* Writable—Controls whether you can **reassign the value** of this field,
-* effectively making its assignment immutable.
-
+ * This second argument gives us fine control over how this newly created
+ * object’s properties behave:
+ *
+ * Enumerable—Controls whether the property can be enumerated or viewed (as
+ * when you pass the object to **console.log**, enumerating the keys with
+ *  **Object.keys** ), or whether it’s seen byObject.assign (a topic that we’ll
+ *  circle
+ *  back to in chapter 3).
+ *
+ * Configurable—Controls whether you’re allowed to **delete** an object’s
+ * property with the delete keyword or whether you can reconfigure the
+ * field’s property descriptor.
+ *
+ * Writable—Controls whether you can **reassign the value** of this field,
+ * effectively making its assignment immutable.
  */
 
+console.log('-----------------------------------')
 // ------------------------------------------------------------------------
 /*
  * When you create a property by using the dot notation directly on the
@@ -152,7 +161,7 @@ for (const moneyTransactionSKey in moneyTransactionS) {
  * access or method invocation in moneyTransaction will travel up the
  * prototype chain, continuing to transaction until it finds the property
  * there and returns it. But what if it doesn’t? The lookup process would
- * continue further, finally terminating at the empty object lit- eral {}
+ * continue further, finally terminating at the empty object literal {}
  * (aka Object.prototype). If resolution fails, the result of the operation
  * is undefined for a value property or a TypeError for a function-valued
  * property.
@@ -178,15 +187,15 @@ for (const moneyTransactionSKey in moneyTransactionS) {
 * If you need to manipulate this field, the recommended APIs are
 * - Object.getPrototypeOf and
 * - Object.setPrototypeOf.
-* You can also call the Object#isPrototypeOf method directly on the object.
+* You can also call the Object.isPrototypeOf method directly on the object.
 * */
 console.log(
   'transaction is isPrototypeOf moneyTransaction ',
   transaction.isPrototypeOf(moneyTransaction),
-)
+) // true
 
 console.log('Object.getPrototypeOf ', Object.getPrototypeOf(moneyTransaction))
-//  { sender: 'luis@tjoj.com', recipient: 'luke@tjoj.com' }
+//  { sender: 'sender@gg.com', recipient: 'recipient@gg.com' }
 
 const obj = {}
 const parent = { foo: 'bar' }
@@ -194,12 +203,16 @@ const parent = { foo: 'bar' }
 console.log(obj.foo)
 // Expected output: undefined
 
+// Set the prototype of the object to parent
 Object.setPrototypeOf(obj, parent)
 
 console.log('Object.getPrototypeOf ', Object.getPrototypeOf(obj)) //  { foo: 'bar' }
+
+// when there is no prototype set it returns null
 console.log('Object.getPrototypeOf ', Object.getPrototypeOf(parent))
 //   [Object: null prototype] {}
 
+console.log('-----------------------------------')
 // ------------------------------------------------------------------------
 
 // Differential inheritance
@@ -289,9 +302,3 @@ console.log(
   Object.getPrototypeOf(moneyTransaction2),
 )
 // { calculateHash: [Function: calculateHash] }
-
-const moneyTransaction = () => {
-  console.log('is it is running')
-}
-
-// please visit caniusevia to download the latest VIA software to remap the keys. If the VIA software cannot recogonize your keboard please reach out to our support to the get instruction VIA onlu work when the keyboard is connected by wire to the computer.
