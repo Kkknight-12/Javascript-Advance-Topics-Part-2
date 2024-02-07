@@ -217,46 +217,46 @@ console.log('-----------------------------------')
 
 // Differential inheritance
 /*
- * Differential inheritance, in which derived objects maintain references to
- * the objects from which they are derived, is common in prototypal
- * languages. In JavaScript, differential inheritance is called
- * [[Prototype]]. By contrast, in class-based inheritance, a derived object
- * copies all the state and behavior from its own class, as well as all its
- * derived classes. The key distinction is copy versus link.
+ * Differential inheritance is a concept in JavaScript where an object, when
+ * created, maintains a reference to the object from which it was derived.
+ * This reference is known as the [[Prototype]] of the object. This is
+ * different from class-based inheritance where a derived object copies all
+ * the state and behavior from its own class, as well as all its derived
+ * classes. The key distinction is copy versus link.
  *
- * Although this term sounds a bit intimidating, differential inheritance is
- * a simple concept referring to how extended behavior separates a derived
- * object from its linked generic parent. If you think about a JavaScript
- * object as being a dynamic bag of properties, differentiation means
- * adding properties to another bag and linking the two bags. The prototype
- * resolution mechanism flows uni directionally from a calling object to its
- * linked object (and so on), any newly derived object is meant to
- * differentiate itself from its parent with new behavior. New behavior
- * includes adding new properties or even **overriding** an existing property
- * from a linked object (known as **shadowing** ). You can visit
- *  http://mng.bz/OEmR for more information.
+ * In JavaScript, objects are dynamic collections of properties. When we
+ * create a new object from an existing one, we can add new properties to
+ * the new object, or even override properties that exist in the linked
+ * object. This is known as shadowing.
  *
- * Consider another scenario in which we extend the generic transaction
- * object to define hashTransaction. This object differentiates itself from
- * its parent by adding a function (calculateHash) to compute its own hash
- * value. At a high level, hashing is using an object’s state to generate a
- * unique string value, much as JSON.stringify does, but we need to target
- * only the values, not the entire shape of the object. This hash value has
- * many uses in industry, such as fast insert/retrieval from hash tables or
- * dictionaries, as well as data integrity checks.
+ * The prototype resolution mechanism in JavaScript works in a
+ * unidirectional flow from the calling object to its linked object. This
+ * means that when you try to access a property on an object, JavaScript
+ * will first look for the property on the object itself. If it doesn't find
+ * the property there, it will look in the [[Prototype]] of the object. This
+ * process continues up the prototype chain until the property is found or
+ * until it reaches the end of the chain (Object.prototype). If the property
+ * is not found, JavaScript returns undefined.
  *
+ * In the given scenario, a transaction object is extended to create a
+ * hashTransaction object. The hashTransaction object differentiates itself
+ * from the transaction object by adding a calculateHash function. This
+ * function uses the state of the object to generate a unique hash value.
+ * This hash value can be used for various purposes such as fast
+ * insert/retrieval from hash tables or dictionaries, as well as data
+ * integrity checks.
  *  */
 
 const transaction2 = {
-  sender: 'luis@tjoj.com',
-  recipient: 'luke@tjoj.com',
+  sender: 'sender@123.com',
+  recipient: 'recipient@123.com',
 }
 
 const hashTransaction = Object.create(transaction2)
 console.log(
   'hashTransaction with Object.create sender ',
   hashTransaction.sender,
-)
+) // sender@123.com
 
 hashTransaction.calculateHash = function calculateHash() {
   const data = [this.sender, this.recipient].join('')
@@ -268,28 +268,35 @@ hashTransaction.calculateHash = function calculateHash() {
   return hash ** 2
 }
 
-hashTransaction.calculateHash() // 237572532174000400
+console.log('calculateHash ', hashTransaction.calculateHash()) // 2168339193773211000
 
+console.log('-----------------------------------')
+// ------------------------------------------------------------------------
+
+// setPrototypeOf
 /**
  * To take another approach, you can also use **Object.setPrototypeOf** to
  * differentiate a child object. Suppose that you want to extend
  * moneyTransaction from hash- Transaction. All the same mechanisms apply:
  * */
 const moneyTransaction2 = Object.setPrototypeOf({}, hashTransaction)
+
 console.log(
   'moneyTransaction2 setPrototypeOf sender ',
   moneyTransaction2.sender,
 )
+
 moneyTransaction2.funds = 0.0
 moneyTransaction2.addFunds = function addFunds(funds = 0) {
   this.funds += Number(funds)
+  return this.funds
 }
+console.log('moneyTransaction2 funds', moneyTransaction2.addFunds(10)) // 10
 
-moneyTransaction2.addFunds(10)
-moneyTransaction2.calculateHash() // 237572532174000400
-console.log('moneyTransaction.funds ', moneyTransaction.funds) //10
-console.log('moneyTransaction.sender ', moneyTransaction.sender) //'luis@tjoj.com'
-console.log('moneyTransaction.recipient ', moneyTransaction.recipient) // 'luke@tjoj.com'
+console.log('moneyTransaction2 cal hash ', moneyTransaction2.calculateHash()) //  2168339193773211000
+console.log('moneyTransaction2.funds ', moneyTransaction2.funds) //10
+console.log('moneyTransaction2.sender ', moneyTransaction2.sender) // sender@gg.com
+console.log('moneyTransaction2.recipient ', moneyTransaction2.recipient) // sender@gg.com
 
 console.log(
   'hashTransaction getPrototypeOf ',
