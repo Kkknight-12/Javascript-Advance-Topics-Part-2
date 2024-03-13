@@ -114,6 +114,7 @@ console.log(MyStore.prototype) // undefined
 console.log(Blockchain.prototype) // undefined
 
 console.log('---------------------  OLOO  ---------------------')
+
 // ---------------------  OLOO  ---------------------
 
 /*

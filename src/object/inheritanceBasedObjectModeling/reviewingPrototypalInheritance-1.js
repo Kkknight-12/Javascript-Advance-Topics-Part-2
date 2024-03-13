@@ -114,9 +114,7 @@ for (const moneyTransactionSKey in moneyTransactionS) {
  *
  * Enumerable—Controls whether the property can be enumerated or viewed (as
  * when you pass the object to **console.log**, enumerating the keys with
- *  **Object.keys** ), or whether it’s seen byObject.assign (a topic that we’ll
- *  circle
- *  back to in chapter 3).
+ *  **Object.keys** ), or whether it’s seen byObject.assign.
  *
  * Configurable—Controls whether you’re allowed to **delete** an object’s
  * property with the delete keyword or whether you can reconfigure the
